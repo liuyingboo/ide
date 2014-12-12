@@ -1,0 +1,22 @@
+
+Please follow the steps:
+
+======================================
+
+1. 安装vim插件-vim-addons
+sudo apt-get install vim-addon-manager
+--------------------------------------
+
+2. 安装插件
+vim-addons install supertab
+vim-addons install omnicppcomplete
+vim-addons install taglist 
+vim-addons install winmanager 
+vim-addons install minibufexplorer 
+--------------------------------------
+
+3. 安装Cscope/ctags/文件头
+sudo apt-get install cscope
+sudo apt-get install build-essential
+sudo apt-get install ctags
+--------------------------------------
