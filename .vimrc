@@ -6,6 +6,11 @@
 "
 	set nocompatible
 
+	"新建文件编码
+	set fenc=utf-8
+	set autoindent
+	set hidden
+	
 	if has("syntax")
 	  syntax on            
 	endif
@@ -51,6 +56,7 @@
 	set tags+=./tags "add current directory's generated tags file
 	set tags+=/usr/include/c++/tags
 	set tags+=/home/liuyingbo/workspace/linux-2.6.32.64/tags 
+	set tags+=/home/linyingbo/workspace/gdsl-1.7/tags
 
 	"-- omnicppcomplete 设置 --
 	imap <F3> <C-X><C-O>
@@ -87,7 +93,8 @@
 	let g:miniBufExplMapWindowNavArrows = 1 " 按下Ctrl+箭头，可以切换到当前窗口的上下左右窗口
 	let g:miniBufExplMapCTabSwitchBufs = 1  " 启用以下两个功能：Ctrl+tab移到下一个buffer并在当前窗口打开；Ctrl+Shift+tab移到上一个buffer并在当前窗口打开；
 	let g:miniBufExplModSelTarget = 1       " 不要在不可编辑内容的窗口（如TagList窗口）中打开选中的buffer
-
+	let g:bufExplorerMaxHeight=30           " 设置taglistbuffer的最高限制
+	let g:miniBufExplorerMoreThanOne=0      " 
 	"--代码折叠设置--
 	set foldmethod=syntax               " 用语法高亮来定义折叠
 	set foldlevel=100                   " 启动vim时不要自动折叠代码
@@ -107,18 +114,32 @@
 		endif
 		set csverb
 	endif
+
 	map <F4> :cs add ./cscope.out .<CR><CR><CR> :cs reset<CR>
 	imap <F4> <ESC>:cs add ./cscope.out .<CR><CR><CR> :cs reset<CR>
-	nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-	nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-	nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-	nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-	nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-	nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
-	nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-	nmap <C-_>i :cs find i <C-R>=expand("<cfile>")<CR><CR> :copen<CR><CR>
+
+	nmap <C-c>s :cs find s <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
+	nmap <C-c>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+	nmap <C-c>d :cs find d <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
+	nmap <C-c>c :cs find c <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
+	nmap <C-c>t :cs find t <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
+	nmap <C-c>e :cs find e <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
+	nmap <C-c>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+	nmap <C-c>i :cs find i <C-R>=expand("<cfile>")<CR><CR> :copen<CR><CR>
 
 	"--高亮设置--
 	set cursorline
 	set cursorcolumn
+				
+	"取消粘贴缩进
+	nmap <leader>p :set paste<CR>
+	nmap <leader>pp :set nopaste<CR>
 
+	"插入模式下移动(使用Emacs的方式)
+	inoremap <c-n> <down>
+	inoremap <c-p> <up>
+	inoremap <c-f> <right>
+	inoremap <c-b> <left>
+
+	"插入模式下<esc>键的映射
+	imap jj <esc>
