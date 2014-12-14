@@ -2,11 +2,30 @@
 "  Description: VIM configuration
 "  Author: LYB 
 "  Date: 2014-12-11
-"
-"
-	set nocompatible
 
-	"新建文件编码
+	set nocompatible              
+	filetype off                  
+	
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
+	
+	"Vundle插件，必须在其他包之前先导入
+	Plugin 'gmarik/Vundle.vim'
+	Plugin 'tpope/vim-fugitive'
+	Plugin 'L9'
+	Bundle 'git://git.wincent.com/command-t.git'
+
+	Plugin 'winmanager'
+	Plugin 'OmniCppComplete' 
+	Plugin 'SuperTab' 
+	Plugin 'taglist.vim'
+	Plugin 'minibufexpl.vim'
+	Plugin 'The-NERD-tree'
+	Plugin 'The-NERD-Commenter'	
+
+	call vundle#end()
+	filetype plugin indent on    " required
+
 	set fenc=utf-8
 	set autoindent
 	set hidden
@@ -17,7 +36,7 @@
 
 	colorscheme torte     " 配色方案 
 
-	filetype on
+	"filetype on
 	filetype plugin on
 
 	set autowrite      
@@ -85,7 +104,7 @@
 
 	"-- WinManager 设置 --
 	let g:winManagerWindowLayout='FileExplorer|TagList' " 设置我们要管理的插件
-	"let g:persistentBehaviour=0                        " 如果所有编辑文件都关闭了，退出vim
+	let g:persistentBehaviour=0                         " 如果所有编辑文件都关闭了，退出vim
 	nmap wm :WMToggle<cr> 
 
 	"-- MiniBufferExplorer 设置 --
@@ -100,23 +119,23 @@
 	set foldlevel=100                   " 启动vim时不要自动折叠代码
 	set foldcolumn=5                    " 设置折叠栏宽度
 
-	"-- Cscope 设置 --
-	if has("cscope")
-		set csprg=/usr/bin/cscope        " 指定用来执行cscope的命令
-		set csto=0                       " 设置cstag命令查找次序：
-		set cst                          " 同时搜索cscope数据库和标签文件
-		set cscopequickfix=s-,c-,d-,i-,t-,e-    " 使用QuickFix窗口来显示cscope查找结果
-		set nocsverb
-		if filereadable("cscope.out")    " 若当前目录下存在cscope数据库，添加该数据库到vim
-			cs add cscope.out
-		elseif $CSCOPE_DB != ""          " 否则只要环境变量CSCOPE_DB不为空，则添加其指定的数据库到vim
-			cs add $CSCOPE_DB
-		endif
-		set csverb
+	if has("cscope") 
+	   set csprg=/usr/bin/cscope 
+	   set csto=0 
+	   set cst 
+	   set csverb 
+	   set cspc=3 
+	   "add any database in current dir 
+	   if filereadable("cscope.out") 
+	       cs add cscope.out 
+	   else 
+	       let cscope_file=findfile("cscope.out",".;") 
+	       let cscope_pre=matchstr(cscope_file,".*/") 
+	       if !empty(cscope_file) && filereadable(cscope_file) 
+	           exe "cs add" cscope_file cscope_pre 
+	       endif       
+	   endif 
 	endif
-
-	map <F4> :cs add ./cscope.out .<CR><CR><CR> :cs reset<CR>
-	imap <F4> <ESC>:cs add ./cscope.out .<CR><CR><CR> :cs reset<CR>
 
 	nmap <C-c>s :cs find s <C-R>=expand("<cword>")<CR><CR> :copen<CR><CR>
 	nmap <C-c>g :cs find g <C-R>=expand("<cword>")<CR><CR>
@@ -127,6 +146,7 @@
 	nmap <C-c>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 	nmap <C-c>i :cs find i <C-R>=expand("<cfile>")<CR><CR> :copen<CR><CR>
 
+	set cscopequickfix=s-,c-,d-,i-,t-,e-
 	"--高亮设置--
 	set cursorline
 	set cursorcolumn
@@ -142,4 +162,4 @@
 	inoremap <c-b> <left>
 
 	"插入模式下<esc>键的映射
-	imap jj <esc>
+	imap <c-g> <esc>
